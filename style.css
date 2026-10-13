@@ -25,3 +25,10 @@ main { max-width: 900px; margin: 0 auto; padding: 8px 16px 48px; }
 #detail li { margin-bottom: 6px; }
 a, .back { color: var(--accent); cursor: pointer; }
 .back { background: none; border: 0; font-size: 16px; padding: 0 0 12px; }
+#pantry { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+#pantry input[type=text] { width: 100%; margin: 6px 0; padding: 8px 12px; font-size: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); }
+#pantry-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+.chip { border: 0; background: var(--accent); color: #fff; padding: 3px 10px; border-radius: 999px; cursor: pointer; font-size: 14px; }
+.badge { display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 6px; font-size: 13px; background: var(--line); }
+.badge.full { background: #2e8b57; color: #fff; }
+li.miss { color: #d94a3a; }

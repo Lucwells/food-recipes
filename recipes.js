@@ -7,7 +7,7 @@ window.RECIPES = [
     channel: "Panacea Palm",
     time: "",
     servings: 8,
-    tags: ["high-protein", "meal-prep", "beef", "freezer-friendly"],
+    tags: ["meal-prep", "beef", "freezer-friendly"],
     ingredients: [
       "Cheeseburger beef:",
       "400 g lean ground beef (5% fat or less)",
