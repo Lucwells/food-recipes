@@ -32,3 +32,5 @@ a, .back { color: var(--accent); cursor: pointer; }
 .badge { display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 6px; font-size: 13px; background: var(--line); }
 .badge.full { background: #2e8b57; color: #fff; }
 li.miss { color: #d94a3a; }
+[hidden] { display: none !important; }
+.hero { width: 100%; max-height: 320px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; }

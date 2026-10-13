@@ -6,7 +6,8 @@ try { pantry = JSON.parse(localStorage.getItem("pantry") || "[]"); } catch (e) {
 const savePantry = () => { try { localStorage.setItem("pantry", JSON.stringify(pantry)); } catch (e) {} };
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const ytId = (url) => (url.match(/(?:v=|youtu\.be\/|shorts\/)([\w-]{11})/) || [])[1];
+const ytId = (url) => ((url || "").match(/(?:v=|youtu\.be\/|shorts\/)([\w-]{11})/) || [])[1];
+const thumb = (r) => r.image || (ytId(r.url) ? `https://i.ytimg.com/vi/${ytId(r.url)}/mqdefault.jpg` : "");
 
 // Assumed always on hand, so they never count as missing.
 const STAPLES = ["salt", "pepper", "water", "cooking spray", "oil"];
@@ -56,8 +57,8 @@ function renderGrid() {
   }
   $("grid").innerHTML = list.length
     ? list.map(({ r, m }) => {
-        const id = ytId(r.url);
-        const img = id ? `<img loading="lazy" src="https://i.ytimg.com/vi/${id}/mqdefault.jpg" alt="">` : "";
+        const src = thumb(r);
+        const img = src ? `<img loading="lazy" src="${esc(src)}" alt="">` : "";
         const badge = usePantry
           ? `<span class="badge${m.missing.length ? "" : " full"}">${
               m.missing.length ? `have ${m.have.length}/${m.total} · missing ${m.missing.length}` : "You can make this"
@@ -76,8 +77,9 @@ function showDetail(id) {
   $("detail").innerHTML = `
     <button class="back">← All recipes</button>
     <h2>${esc(r.title)}</h2>
-    <p class="meta">${esc(r.channel || "")} · ${esc(r.time || "")}${r.servings ? " · serves " + esc(r.servings) : ""}
-      · <a href="${esc(r.url)}" target="_blank" rel="noopener">Watch video</a></p>
+    ${r.image ? `<img class="hero" src="${esc(r.image)}" alt="">` : ""}
+    <p class="meta">${[r.channel, r.time, r.servings ? "serves " + r.servings : ""].filter(Boolean).map(esc).join(" · ")}${
+      r.url ? ` · <a href="${esc(r.url)}" target="_blank" rel="noopener">Watch video</a>` : ""}</p>
     <h3>Ingredients</h3><ul>${(r.ingredients || [])
       .map((i) => `<li${pantry.length && missing.has(i) ? ' class="miss"' : ""}>${esc(i)}</li>`).join("")}</ul>
     ${pantry.length ? `<p class="meta">Red = not in your ingredients.</p>` : ""}
