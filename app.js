@@ -88,7 +88,6 @@ function showDetail(id) {
   $("detail").hidden = false;
   $("grid").hidden = $("tags").hidden = $("pantry").hidden = true;
   document.querySelector("header").hidden = true;
-  location.hash = id;
   window.scrollTo(0, 0);
 }
 
@@ -96,7 +95,7 @@ function showList() {
   $("detail").hidden = true;
   $("grid").hidden = $("tags").hidden = $("pantry").hidden = false;
   document.querySelector("header").hidden = false;
-  history.replaceState(null, "", location.pathname);
+
 }
 
 $("search").addEventListener("input", renderGrid);
@@ -122,13 +121,18 @@ $("tags").addEventListener("click", (e) => {
 });
 $("grid").addEventListener("click", (e) => {
   const c = e.target.closest(".card");
-  if (c) showDetail(c.dataset.id);
+  if (c) location.hash = encodeURIComponent(c.dataset.id);
 });
 $("detail").addEventListener("click", (e) => {
-  if (e.target.classList.contains("back")) showList();
+  if (e.target.classList.contains("back")) location.hash = "";
 });
 
 renderTags();
 renderPantry();
 renderGrid();
-if (location.hash.length > 1) showDetail(decodeURIComponent(location.hash.slice(1)));
+function route() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (id && recipes.some((r) => r.id === id)) showDetail(id); else showList();
+}
+window.addEventListener("hashchange", route);
+route();
